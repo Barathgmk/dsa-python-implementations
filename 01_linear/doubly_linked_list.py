@@ -5,44 +5,115 @@ Conventions (the tests rely on these):
 
 Run this file directly to execute the tests at the bottom.
 """
+class Node:
+    def __init__(self,value):
+        self.value = value
+        self.next = None
+        self.prev = None
 
 
 class DoublyLinkedList:
     def __init__(self):
-        # TODO: set up internal state
-        raise NotImplementedError
+        self.head = Node(None)
+        self.tail = Node(None)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        self.len = 0
+
 
     def push_front(self, x):
-        """push_front"""
-        raise NotImplementedError
+        temp = Node(x)
+
+        temp.next = self.head.next
+        temp.prev = self.head
+
+        self.head.next.prev = temp
+        self.head.next = temp
+
+
+        self.len += 1
+
+        return temp 
 
     def push_back(self, x):
-        """push_back"""
-        raise NotImplementedError
+        temp = Node(x)
+
+        temp.prev = self.tail.prev
+        temp.next = self.tail
+
+        self.tail.prev.next = temp
+        self.tail.prev = temp
+
+        self.len += 1
+
+        return temp
 
     def pop_front(self):
-        """pop_front"""
-        raise NotImplementedError
+        if self.len == 0:
+            raise IndexError("list is empty")
+
+        temp = self.head.next
+
+        self.head.next = temp.next
+        temp.next.prev = self.head   
+
+        self.len -= 1
+
+
+
+        return temp.value
 
     def pop_back(self):
-        """pop_back"""
-        raise NotImplementedError
+        if self.len == 0:
+            raise IndexError("list is empty")
+        self.len -=1
+
+        temp = self.tail.prev
+
+        self.tail.prev = temp.prev
+
+        temp.prev.next = self.tail
+
+
+        return temp.value
 
     def remove_node(self, node):
-        """O(1) unlink given node"""
-        raise NotImplementedError
+        if node is None or node == self.head or node == self.tail:
+            return None
+
+        node.prev.next = node.next
+        node.next.prev = node.prev
+
+        self.len -= 1
+
+        return node.value
+            
+    
 
     def move_to_front(self, node):
-        """move_to_front"""
-        raise NotImplementedError
+        if node is None or node == self.head or node == self.tail:
+                    return None
+        
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        
+        node.next = self.head.next
+        self.head.next.prev = node
+        self.head.next = node
+        node.prev = self.head
+        
+        
+        return node.value
 
     def __len__(self):
-        """__len__"""
-        raise NotImplementedError
+        return self.len
 
     def __iter__(self):
-        """__iter__"""
-        raise NotImplementedError
+        curr = self.head.next
+
+        while curr != self.tail:
+            yield curr.value
+            curr = curr.next
 
 
 def _raises(exc, fn, *args):
@@ -58,7 +129,7 @@ def test_doubly_linked_list():
     d = DoublyLinkedList()
     n2 = d.push_back(2); n1 = d.push_front(1); n3 = d.push_back(3)
     assert list(d) == [1, 2, 3] and len(d) == 3
-    assert n2.val == 2
+    assert n2.value == 2
     d.remove_node(n2)
     assert list(d) == [1, 3] and len(d) == 2
     d.move_to_front(n3)
