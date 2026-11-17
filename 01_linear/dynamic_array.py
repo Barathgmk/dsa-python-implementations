@@ -5,37 +5,82 @@ Run this file directly to execute the tests at the bottom.
 
 
 class DynamicArray:
-    def __init__(self):
-        # TODO: set up internal state
-        raise NotImplementedError
+    def __init__(self, capacity = 5):
+        if capacity < 1:
+            raise ValueError("Capacity must be positive")
+
+        self.capacity = capacity
+        self.size = 0
+        self.arr = [0] * capacity
 
     def append(self, x):
         """Add to end"""
-        raise NotImplementedError
+        if self.size == self.capacity:
+            self._resize(self.capacity * 2)
+
+        self.arr[self.size] = x
+        self.size += 1
 
     def insert(self, i, x):
         """Insert at index, shift right"""
-        raise NotImplementedError
+        if i < 0 or i > self.size:
+            raise IndexError("Index out of bounds")
+
+        if self.size == self.capacity:
+            self._resize(self.capacity * 2)
+
+        for j in range(self.size, i, -1):
+            self.arr[j] = self.arr[j - 1]
+
+        self.arr[i] = x
+        self.size += 1
 
     def pop(self, i=-1):
-        """Remove and return"""
-        raise NotImplementedError
+        """Remove and return element at index"""
+        if self.size == 0:
+            raise IndexError("Pop from empty array")
+
+        if i == -1:
+            i = self.size - 1
+
+        if i < 0 or i >= self.size:
+            raise IndexError("Index out of bounds")
+
+        value = self.arr[i]
+
+        for j in range(i, self.size - 1):
+            self.arr[j] = self.arr[j + 1]
+
+        self.size -= 1
+        self.arr[self.size] = 0
+
+        return value
 
     def get(self, i):
-        """get"""
-        raise NotImplementedError
+        if i < 0 or i >= self.size:
+            raise IndexError("Index out of bounds")
+
+        return self.arr[i]
 
     def set(self, i, x):
-        """set"""
-        raise NotImplementedError
+        if i < 0 or i >= self.size:
+            raise IndexError("Index out of bounds")
+
+        self.arr[i] = x
 
     def __len__(self):
-        """__len__"""
-        raise NotImplementedError
+        return self.size
 
     def _resize(self, cap):
         """Copy into new backing store"""
-        raise NotImplementedError
+        new_arr = [0] * cap
+
+        for i in range(self.size):
+            new_arr[i] = self.arr[i]
+
+        self.arr = new_arr
+        self.capacity = cap
+
 
 
 def _raises(exc, fn, *args):
