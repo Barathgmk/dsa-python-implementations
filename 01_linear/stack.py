@@ -2,33 +2,50 @@
 
 Run this file directly to execute the tests at the bottom.
 """
-
+class Node:
+    def __init__(self,value):
+        self.value = value
+        self.next = None
+        
 
 class Stack:
     def __init__(self):
-        # TODO: set up internal state
-        raise NotImplementedError
+        self.head = Node(None)
+        self.len = 0 
 
     def push(self, x):
-        """push"""
-        raise NotImplementedError
+        self.len += 1  
+
+        dummy = self.head.next
+        newItem = Node(x)
+        self.head.next = newItem
+
+        newItem.next = dummy
+
+        
 
     def pop(self):
-        """pop"""
-        raise NotImplementedError
+        if self.is_empty():
+            raise IndexError("empty stack")
+        self.len -= 1 
+        dummy = self.head.next
+        self.head.next = dummy.next
+        dummy.next = None
+        return dummy.value
 
     def peek(self):
-        """peek"""
-        raise NotImplementedError
+        if self.is_empty():
+            raise IndexError("empty stack")
+        return self.head.next.value
 
     def is_empty(self):
-        """is_empty"""
-        raise NotImplementedError
+        if self.len == 0:
+            return True
+        else:
+            return False
 
     def __len__(self):
-        """__len__"""
-        raise NotImplementedError
-
+        return self.len
 
 def _raises(exc, fn, *args):
     try:
