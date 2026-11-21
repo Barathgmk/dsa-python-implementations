@@ -2,7 +2,7 @@
 
 Data structures implemented from scratch in Python for SWE interview prep. Each file has one class plus tests at the bottom.
 
-**Progress: 5/45 implemented**
+**Progress: 6/45 implemented**
 
 ## Run a file's tests
 
@@ -15,7 +15,7 @@ A passing run prints `<Class>: all tests passed`.
 ## 01_linear
 
 - [x] `01_linear/dynamic_array.py` - DynamicArray: Resizable array (amortized O(1) append). Use a fixed-size backing list; double capacity when full.
-- [ ] `01_linear/singly_linked_list.py` - SinglyLinkedList: Singly linked list with head pointer (add tail for O(1) append).
+- [x] `01_linear/singly_linked_list.py` - SinglyLinkedList: Singly linked list with head pointer (add tail for O(1) append).
 - [x] `01_linear/doubly_linked_list.py` - DoublyLinkedList: Doubly linked list with sentinel head/tail. Basis for LRU, deque, browser history.
 - [x] `01_linear/stack.py` - Stack: LIFO stack (backed by dynamic array or linked list).
 - [ ] `01_linear/queue.py` - Queue: FIFO queue (linked list or two-stack implementation).
